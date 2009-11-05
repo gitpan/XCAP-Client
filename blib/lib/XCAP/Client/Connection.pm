@@ -36,7 +36,7 @@ sub _http_response_code () {
     # HTTP_CONFLICT - RFC 4825 - Section 11. 
     return 0 if $code == HTTP_OK || $code == HTTP_CONFLICT;
     return 0 if $code == HTTP_CREATED && $method eq 'PUT';
-    die status_message($code);
+    die $self->uri . status_message($code);
 }
 
 sub _request () {

@@ -1,5 +1,5 @@
 
-package XCAP::Client::Document;
+package XCAP::Client::Element;
 
 use Moose;
 
@@ -14,21 +14,18 @@ has content => (
     isa => 'Str',
 );
 
-sub fetch { $_[0]->connection->get; }
+sub fetch { $_[0]->connection->fetch; }
 
 sub delete { $_[0]->connection->delete; }
 
 sub create { 
     my $self = shift;
-    $self->connection->content($self->content);
-    $self->connection->put; 
+    $self->connection->fetch($self->content); 
 }
 
 sub replace { 
     my $self = shift;
-    $self->connection->content($self->content);
-    $self->connection->delete;
-    $self->connection->put;
+    $self->connection->fetch($self->content); 
 }
 
 

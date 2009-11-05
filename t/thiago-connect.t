@@ -13,12 +13,19 @@ BEGIN {
 	use_ok ('XCAP::Client');
 }
 
-our $example_file = "$Bin/PRES_RULES_EXAMPLE.xml";
-our $xcap_root = 'http://localhost:8000/xcap-root';
-our $user = 'sip:username@example.org';
-our $auth_realm = 'sip.example.com';
-our $auth_username = 'auth_username';
-our $auth_password = 'auth_password';
+#our $example_file = "$Bin/PRES_RULES_EXAMPLE.xml";
+#our $xcap_root = 'http://localhost:8000/xcap-root';
+#our $user = 'sip:username@example.org';
+#our $auth_realm = 'sip.nocphone.com';
+#our $auth_username = 'auth_username';
+#our $auth_password = 'auth_password';
+
+our $example_file = "$Bin/THIAGO.xml";
+our $xcap_root = 'http://sip.nocphone.com:8000';
+our $user = 'sip:thiago@sip.nocphone.com';
+our $auth_realm = 'sip.nocphone.com';
+our $auth_username = 'thiago';
+our $auth_password = 'testando';
 
 open FILE, '<', $example_file or die "Unable to open $example_file: $!";
 our @content = <FILE>;
@@ -51,9 +58,13 @@ is ($xcap_client->auth_password, $auth_password, 'auth password');
 lives_ok { $xcap_client->document->content(join('',@content)) } 'XML Content';
 ok (grep {/20[01]/} $xcap_client->document->create, 'create method');
 is ($xcap_client->document->delete, 200, 'delete method');
-ok (grep {/20[01]/} $xcap_client->document->replace, 'replace method');
+ok (grep {/20[01]/} $xcap_client->document->replace, 'delete method');
 is ($xcap_client->document->fetch, join('', @content), 'fetch method');
 
+
+# Wrong host
+#lives_ok { $xcap_client->xcap_root('http://xsa.sidjqaks.co') } 'XCAP_root';
+#dies_ok { $xcap_client->document->f
 
 1;
 
